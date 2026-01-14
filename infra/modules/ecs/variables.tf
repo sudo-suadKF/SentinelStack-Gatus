@@ -22,3 +22,83 @@ variable "tg-arn" {
   description = "Contains ECS TG's ARN"
   type = string
 }
+
+variable "cluster-name" {
+  description = "Contains ECS's cluster name"
+  type = string
+}
+
+variable "setting-name" {
+  description = "Contains setting name"
+  type = string
+}
+
+variable "setting-value" {
+  description = "Contains setting value"
+  type = string
+}
+
+variable "cloudwatch-name" {
+  description = "Contains cloudwatch group name"
+  type = string
+}
+
+variable "cloudwatch-retention-days" {
+  description = "Contains Cloudwatch's retention days"
+  type = number
+}
+
+variable "task-family" {
+  description = "Contains task's family"
+  type = string
+}
+
+variable "network-mode" {
+  description = "Contains task's network mode"
+  type = string
+}
+
+# variable "requires-compatibilities" {
+#   description = "Contains task's required compatibilities"
+#   type = string
+# }
+
+variable "cpu-size" {
+  description = "Contains CPU size"
+  type = number
+}
+
+variable "memory-size" {
+  description = "Contains memory size"
+  type = number
+}
+
+variable "container-name" {
+  description = "Contains container name"
+  type = string
+}
+
+variable "port-app" {
+  description = "Contains port 8080"
+  type = number
+}
+
+variable "port-mapping-protocol" {
+  description = "Contains the IP protocol for port mappings"
+  type = string
+}
+
+variable "log-config-driver" {
+  description = "Contains the driver for logconfig"
+  type = string
+}
+
+variable "aws-region" {
+  description = "Contains the region"
+  type = string
+}
+
+variable "aws-stream-prefix" {
+  description = "Contains stream prefix"
+  type = string
+}

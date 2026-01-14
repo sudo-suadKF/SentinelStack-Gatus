@@ -28,7 +28,7 @@ resource "aws_lb_target_group" "ecs-tg" {
     timeout             = var.health-check-timeout
     path                = var.health-check-path
     unhealthy_threshold = var.health-check-unhealthy-threshold
-    port                = var.health-check-port
+    #port                = var.health-check-port
   }
 }
 ########################################################################
@@ -40,7 +40,7 @@ resource "aws_lb_listener" "HTTP_listener" {
   protocol          = var.listener-http-protocol
 
   default_action {
-    target_group_arn = aws_lb_target_group.ecs-tg.arn
+    #target_group_arn = aws_lb_target_group.ecs-tg.arn
     type             = var.listener-http-action-type
 
     redirect {

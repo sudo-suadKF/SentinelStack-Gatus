@@ -14,9 +14,9 @@ resource "aws_vpc_security_group_ingress_rule" "alb-sg-HTTP" {
   security_group_id = aws_security_group.alb-sg.id
 
   cidr_ipv4   = var.internet-cidr
-  from_port   = var.port-80
+  from_port   = var.port-http
   ip_protocol = var.ip-protocol-tcp
-  to_port     = var.port-80
+  to_port     = var.port-http
 }
 
 resource "aws_vpc_security_group_ingress_rule" "alb-sg-HTTPS" {
@@ -24,9 +24,9 @@ resource "aws_vpc_security_group_ingress_rule" "alb-sg-HTTPS" {
   security_group_id = aws_security_group.alb-sg.id
 
   cidr_ipv4   = var.internet-cidr
-  from_port   = var.port-443
+  from_port   = var.port-https
   ip_protocol = var.ip-protocol-tcp
-  to_port     = var.port-443
+  to_port     = var.port-https
 }
 
 resource "aws_vpc_security_group_egress_rule" "alb-sg-outbound" {
@@ -54,9 +54,9 @@ resource "aws_vpc_security_group_ingress_rule" "ecs-sg-inbound" {
   security_group_id = aws_security_group.ecs-sg.id
 
   referenced_security_group_id = aws_security_group.alb-sg.id
-  from_port = var.port-8080
+  from_port = var.port-app
   ip_protocol = var.ip-protocol-tcp
-  to_port = var.port-8080
+  to_port = var.port-app
 }
 
 resource "aws_vpc_security_group_egress_rule" "ecs-sg-outbound" {

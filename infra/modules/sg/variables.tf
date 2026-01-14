@@ -23,7 +23,7 @@ variable "internet-cidr" {
   type = string
 }
 
-variable "port-80" {
+variable "port-http" {
   description = "Contains port 80"
   type = number
 }
@@ -38,7 +38,7 @@ variable "alb-sg-inbound-HTTPS-description" {
   type = string
 }
 
-variable "port-443" {
+variable "port-https" {
   description = "Contains port 443"
   type = number
 }
@@ -68,7 +68,7 @@ variable "ecs-sg-inbound-description" {
   type = string
 }
 
-variable "port-8080" {
+variable "port-app" {
   description = "Contains port 8080"
   type = number
 }

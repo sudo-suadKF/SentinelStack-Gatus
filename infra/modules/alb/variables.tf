@@ -98,10 +98,10 @@ variable "health-check-unhealthy-threshold" {
   type = string
 }
 
-variable "health-check-port" {
-  description = "Contains health check's port"
-  type = string
-}
+# variable "health-check-port" {
+#   description = "Contains health check's port"
+#   type = string
+# }
 
 variable "listener-http-port" {
   description = "Contains ALB's HTTP listener port"

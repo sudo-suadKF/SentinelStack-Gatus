@@ -1,51 +1,51 @@
 # ECS Cluster
 resource "aws_ecs_cluster" "gatus" {
-  name = "gatus-ecs-cluster"
+  name = var.cluster-name
 
   setting {
-    name  = "containerInsights"
-    value = "enabled"
+    name  = var.setting-name
+    value = var.setting-value
   }
 }
 
 # CloudWatch group for logs from ECS tasks
 resource "aws_cloudwatch_log_group" "ecs-log-group" {
-  name = "ecs-cloudwatch-logs"
-  retention_in_days = 14
+  name = var.cloudwatch-name
+  retention_in_days = var.cloudwatch-retention-days
 }
 
 # ECS Task definition to run the gatus app in the docker image from ECR
 # and run with Cloudwatch logs
 resource "aws_ecs_task_definition" "gatus-task" {
-  family = "ecs-gatus-task"
-  network_mode = "awsvpc"
-  requires_compatibilities = [ "FARGATE" ]
-  cpu = 256
-  memory = 512
+  family = var.task-family
+  network_mode = var.network-mode
+  requires_compatibilities = ["FARGATE"]
+  cpu = var.cpu-size
+  memory = var.memory-size
   execution_role_arn = var.execution-role-arn
 
   depends_on = [ aws_cloudwatch_log_group.ecs-log-group ]
 
   container_definitions = jsonencode([
     {
-      name      = "gatus-container"
+      name      = var.container-name
       image     = var.image-uri
-      cpu       = 256
-      memory    = 512
+      cpu       = var.cpu-size
+      memory    = var.memory-size
       essential = true
       portMappings = [
         {
-          containerPort = 8080
-          protocol      = "tcp"
+          containerPort = var.port-app
+          protocol      = var.port-mapping-protocol
         }
       ]
 
       logConfiguration = {
-       logDriver = "awslogs"
+       logDriver = var.log-config-driver
        options = {
         awslogs-group = aws_cloudwatch_log_group.ecs-log-group.name
-        awslogs-region = "eu-west-2"
-        awslogs-stream-prefix = "ecs"
+        awslogs-region = var.aws-region
+        awslogs-stream-prefix = var.aws-stream-prefix
        } 
       }
     }
@@ -70,7 +70,7 @@ resource "aws_ecs_service" "gatus-service" {
 
   load_balancer {
     target_group_arn = var.tg-arn
-    container_name   = "ecs-gatus"
+    container_name   = "gatus-container"
     container_port   = 8080
   }
 

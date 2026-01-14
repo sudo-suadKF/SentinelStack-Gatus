@@ -142,6 +142,7 @@ variable "private-rt-tags" {
   type = string
   default = "Private-RT"
 }
+
 ########################################################################
 
 # Variables frpm SG module
@@ -163,7 +164,7 @@ variable "alb-sg-inbound-HTTP-description" {
   default = "Rule for inbound HTTP traffic to ALB"
 }
 
-variable "port-80" {
+variable "port-http" {
   description = "Contains port 80"
   type = number
   default = 80
@@ -181,7 +182,7 @@ variable "alb-sg-inbound-HTTPS-description" {
   default = "Rule for inbound HTTPS traffic to ALB"
 }
 
-variable "port-443" {
+variable "port-https" {
   description = "Contains port 443"
   type = number
   default = 443
@@ -217,7 +218,7 @@ variable "ecs-sg-inbound-description" {
   default = "Rule for inbound from ALB to ECS"
 }
 
-variable "port-8080" {
+variable "port-app" {
   description = "Contains port 8080"
   type = number
   default = 8080
@@ -228,6 +229,7 @@ variable "ecs-sg-outbound-description" {
   type = string
   default = "Rule for outbound from ECS"
 }
+
 ########################################################################
 
 # Variables from ALB module
@@ -264,7 +266,7 @@ variable "tg-port" {
 variable "tg-protocol" {
   description = "Contains TG's protocol"
   type = string
-  default = "HTTPS"
+  default = "HTTP"
 }
 
 variable "tg-ip-type" {
@@ -312,7 +314,7 @@ variable "health-check-timeout" {
 variable "health-check-path" {
   description = "Contains health check's path"
   type = string
-  default = "/health"
+  default = "/"
 }
 
 variable "health-check-unhealthy-threshold" {
@@ -321,11 +323,11 @@ variable "health-check-unhealthy-threshold" {
   default = "2"
 }
 
-variable "health-check-port" {
-  description = "Contains health check's port"
-  type = string
-  default = "8080"
-}
+# variable "health-check-port" {
+#   description = "Contains health check's port"
+#   type = string
+#   default = "traffic-port"
+# }
 
 variable "listener-http-port" {
   description = "Contains ALB's HTTP listener port"
@@ -392,6 +394,7 @@ variable "tg-attach-port" {
   type = number
   default = 8080
 }
+
 ########################################################################
 
 # Variables from ACM & Route53 module
@@ -424,6 +427,7 @@ variable "record-type" {
   type = string
   default = "A"
 }
+
 ########################################################################
 
 # Variable from ECR module:
@@ -432,6 +436,8 @@ variable "repository-name" {
   type = string
   default = "gatus-ecs-project"
 }
+
+########################################################################
 
 # Variables from IAM module:
 variable "iam-role-name" {
@@ -445,3 +451,97 @@ variable "policy-arn" {
   type = string
   default = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
+########################################################################
+
+# Variables from ECS module:
+variable "cluster-name" {
+  description = "Contains ECS's cluster name"
+  type = string
+  default = "gatus-ecs-cluster"
+}
+
+variable "setting-name" {
+  description = "Contains setting name"
+  type = string
+  default = "containerInsights"
+}
+
+variable "setting-value" {
+  description = "Contains setting value"
+  type = string
+  default = "enabled"
+}
+
+variable "cloudwatch-name" {
+  description = "Contains cloudwatch group name"
+  type = string
+  default = "ecs-cloudwatch-logs"
+}
+
+variable "cloudwatch-retention-days" {
+  description = "Contains Cloudwatch's retention days"
+  type = number
+  default = 14
+}
+
+variable "task-family" {
+  description = "Contains task's family"
+  type = string
+  default = "ecs-gatus-task"
+}
+
+variable "network-mode" {
+  description = "Contains task's network mode"
+  type = string
+  default = "awsvpc"
+}
+
+# variable "requires-compatibilities" {
+#   description = "Contains task's required compatibilities"
+#   type = string
+#   default = "FARGATE"
+# }
+
+variable "cpu-size" {
+  description = "Contains CPU size"
+  type = number
+  default = 256
+}
+
+variable "memory-size" {
+  description = "Contains memory size"
+  type = number
+  default = 512
+}
+
+variable "container-name" {
+  description = "Contains container name"
+  type = string
+  default = "gatus-container"
+}
+
+variable "port-mapping-protocol" {
+  description = "Contains the IP protocol for port mappings"
+  type = string
+  default = "tcp"
+}
+
+variable "log-config-driver" {
+  description = "Contains the driver for logconfig"
+  type = string
+  default = "awslogs"
+}
+
+variable "aws-region" {
+  description = "Contains the region"
+  type = string
+  default = "eu-west-2"
+}
+
+variable "aws-stream-prefix" {
+  description = "Contains stream prefix"
+  type = string
+  default = "ecs"
+}
+
+########################################################################

@@ -41,9 +41,9 @@ module "sg" {
   internet-cidr = var.internet-cidr
   ip-protocol-1 = var.ip-protocol-1
   ip-protocol-tcp = var.ip-protocol-tcp
-  port-80 = var.port-80
-  port-443 = var.port-443
-  port-8080 = var.port-8080
+  port-http = var.port-http
+  port-https = var.port-https
+  port-app = var.port-app
 }
 
 module "alb" {
@@ -67,7 +67,7 @@ module "alb" {
   health-check-interval = var.health-check-interval
   health-check-matcher = var.health-check-matcher
   health-check-path = var.health-check-path
-  health-check-port = var.health-check-port
+  #health-check-port = var.health-check-port
   health-check-protocol = var.health-check-protocol
   health-check-timeout = var.health-check-timeout
   health-check-unhealthy-threshold = var.health-check-unhealthy-threshold
@@ -109,6 +109,22 @@ module "ecs" {
     module.vpc.private-subnet1-id, module.vpc.private-subnet2-id, module.vpc.private-subnet3-id
   ]
   image-uri = module.ecr.image-uri
+  aws-region = var.aws-region
+  port-app = var.port-app
+  port-mapping-protocol = var.port-mapping-protocol
+  cpu-size = var.cpu-size
+  memory-size = var.memory-size
+  setting-name = var.setting-name
+  setting-value = var.setting-value
+  #requires-compatibilities = var.requires-compatibilities
+  aws-stream-prefix = var.aws-stream-prefix
+  log-config-driver = var.log-config-driver
+  cluster-name = var.cluster-name
+  cloudwatch-name = var.cloudwatch-name
+  cloudwatch-retention-days = var.cloudwatch-retention-days
+  network-mode = var.network-mode
+  task-family = var.task-family
+  container-name = var.container-name
 }
 
 module "ecr" {
