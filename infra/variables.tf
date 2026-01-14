@@ -432,3 +432,16 @@ variable "repository-name" {
   type = string
   default = "gatus-ecs-project"
 }
+
+# Variables from IAM module:
+variable "iam-role-name" {
+  description = "Contains the IAM role's name"
+  type = string
+  default = "ecsTaskExecutionRole"
+}
+
+variable "policy-arn" {
+  description = "Contains Policy's arn"
+  type = string
+  default = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}

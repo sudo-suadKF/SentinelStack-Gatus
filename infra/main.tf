@@ -99,3 +99,25 @@ module "route53" {
   hosted-zone-name = var.hosted-zone-name
   record-type = var.record-type
 }
+
+module "ecs" {
+  source = "./modules/ecs"
+  ecs-sg-id = module.sg.ecs-sg-id
+  execution-role-arn = module.iam.execution-role-arn
+  tg-arn = module.alb.tg-arn
+  private-subnets-ids = [
+    module.vpc.private-subnet1-id, module.vpc.private-subnet2-id, module.vpc.private-subnet3-id
+  ]
+  image-uri = module.ecr.image-uri
+}
+
+module "ecr" {
+  source = "./modules/ecr"
+  repository-name = var.repository-name
+}
+
+module "iam" {
+  source = "./modules/iam"
+  iam-role-name = var.iam-role-name
+  policy-arn = var.policy-arn
+}

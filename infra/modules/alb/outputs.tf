@@ -5,3 +5,7 @@ output "alb-dns-name" {
 output "alb-zone-id" {
   value = aws_lb.alb-gatus.zone_id
 }
+
+output "tg-arn" {
+  value = aws_lb_target_group.ecs-tg.arn
+}
