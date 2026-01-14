@@ -61,8 +61,6 @@ resource "aws_ecs_service" "gatus-service" {
   launch_type     = "FARGATE"
   platform_version = "LATEST"
   
-  #depends_on      = [var.execution-role-arn]
-
   deployment_circuit_breaker {
     enable   = true
     rollback = true

@@ -81,6 +81,7 @@ module "alb" {
   tg-target-type = var.tg-target-type
   lb-type = var.lb-type
   certificate-arn = module.acm.certificate-arn
+  depends_on = [ module.acm ]
 }
 
 module "acm" {

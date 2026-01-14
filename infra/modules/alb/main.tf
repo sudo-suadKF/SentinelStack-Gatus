@@ -40,7 +40,6 @@ resource "aws_lb_listener" "HTTP_listener" {
   protocol          = var.listener-http-protocol
 
   default_action {
-    #target_group_arn = aws_lb_target_group.ecs-tg.arn
     type             = var.listener-http-action-type
 
     redirect {
@@ -63,23 +62,3 @@ resource "aws_lb_listener" "HTTPS_listener" {
     target_group_arn = aws_lb_target_group.ecs-tg.arn
   }
 }
-########################################################################
-
-# TG attachment to ECS
-# resource "aws_lb_target_group_attachment" "attach-ecs1" {
-#   target_group_arn = aws_lb_target_group.ecs-tg.arn
-#   target_id        = 
-#   port             = var.tg-attach-port
-# }
-
-# resource "aws_lb_target_group_attachment" "attach-ecs2" {
-#   target_group_arn = aws_lb_target_group.ecs-tg.arn
-#   target_id        = 
-#   port             = var.tg-attach-port
-# }
-
-# resource "aws_lb_target_group_attachment" "attach-ecs3" {
-#   target_group_arn = aws_lb_target_group.ecs-tg.arn
-#   target_id        = 
-#   port             = var.tg-attach-port
-# }
