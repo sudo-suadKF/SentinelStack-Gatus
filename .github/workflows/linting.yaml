@@ -3,6 +3,10 @@ name: Terraform linting
 on:
     workflow_dispatch:
 
+defaults: 
+    run:
+        working-directory: ./infra
+
 env:
   AWS_REGION: eu-west-2
 
