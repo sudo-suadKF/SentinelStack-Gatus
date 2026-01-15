@@ -33,7 +33,10 @@ jobs:
               run: terraform init
 
             - name: Terraform fmt
-              run: terraform fmt
+              run: | 
+               terraform fmt
+               cd modules
+               terraform fmt
             
             - name: Terraform validate
               run: terraform validate
