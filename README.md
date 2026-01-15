@@ -62,7 +62,31 @@ Firstly, built the infrastructure in AWS with ClickOps.
 
 5. Terraform
 
+I teared down the whole clickops infrastructure and then built it in Terraform with following stuff included: 
 
+Terraform
+- Add .terraform.lock.hcl to .gitignore. Done
+- Move provider configuration into a separate provider.tf file. Done
+- Reference values dynamically using data blocks (for Route 53 or Cloudflare IDs). Done
+- Automate ACM certificate creation using a module or script. Done
+- Add an HTTP → HTTPS redirect on the load balancer. Done
+- Use an S3 backend with native state locking (DynamoDB optional). Done
+- Create modules for VPC, ACM, ALB, ECS and Security Groups. Done
+- Avoid hard-coded values — everything should be variable-driven and defined in .tfvars. Done
+- Keep the code DRY and maintain consistent naming and tagging. Done
+
+Minimum Resources
+VPC with public subnets Done
+ECS cluster + Fargate service Done
+ECR repository Done
+ALB + listener + target Group Done
+ACM certificate Done
+Route53 record for tm.<your-domain> Done
+IAM roles/policies for ECS tasks Done
+Security groups, SSM parameters if needed. Done
+
+Bonus
+Use S3 backend + DynamoDB locking Done
 
 
 

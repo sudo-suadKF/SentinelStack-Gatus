@@ -67,7 +67,7 @@ module "alb" {
   health-check-interval = var.health-check-interval
   health-check-matcher = var.health-check-matcher
   health-check-path = var.health-check-path
-  #health-check-port = var.health-check-port
+  health-check-port = var.health-check-port
   health-check-protocol = var.health-check-protocol
   health-check-timeout = var.health-check-timeout
   health-check-unhealthy-threshold = var.health-check-unhealthy-threshold
@@ -117,7 +117,7 @@ module "ecs" {
   memory-size = var.memory-size
   setting-name = var.setting-name
   setting-value = var.setting-value
-  #requires-compatibilities = var.requires-compatibilities
+  requires-compatibilities = var.requires-compatibilities
   aws-stream-prefix = var.aws-stream-prefix
   log-config-driver = var.log-config-driver
   cluster-name = var.cluster-name

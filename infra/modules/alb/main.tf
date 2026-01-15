@@ -28,7 +28,7 @@ resource "aws_lb_target_group" "ecs-tg" {
     timeout             = var.health-check-timeout
     path                = var.health-check-path
     unhealthy_threshold = var.health-check-unhealthy-threshold
-    #port                = var.health-check-port
+    port                = var.health-check-port
   }
 }
 ########################################################################

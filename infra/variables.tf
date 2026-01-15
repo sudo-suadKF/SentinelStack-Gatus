@@ -314,7 +314,7 @@ variable "health-check-timeout" {
 variable "health-check-path" {
   description = "Contains health check's path"
   type = string
-  default = "/"
+  default = "/health"
 }
 
 variable "health-check-unhealthy-threshold" {
@@ -323,11 +323,11 @@ variable "health-check-unhealthy-threshold" {
   default = "2"
 }
 
-# variable "health-check-port" {
-#   description = "Contains health check's port"
-#   type = string
-#   default = "traffic-port"
-# }
+variable "health-check-port" {
+  description = "Contains health check's port"
+  type = string
+  default = "8080"
+}
 
 variable "listener-http-port" {
   description = "Contains ALB's HTTP listener port"
@@ -496,11 +496,11 @@ variable "network-mode" {
   default = "awsvpc"
 }
 
-# variable "requires-compatibilities" {
-#   description = "Contains task's required compatibilities"
-#   type = string
-#   default = "FARGATE"
-# }
+variable "requires-compatibilities" {
+  description = "Contains task's required compatibilities"
+  type = string
+  default = "FARGATE"
+}
 
 variable "cpu-size" {
   description = "Contains CPU size"
@@ -542,6 +542,30 @@ variable "aws-stream-prefix" {
   description = "Contains stream prefix"
   type = string
   default = "ecs"
+}
+
+variable "service-name" {
+  description = "Contains the ecs service name"
+  type = string
+  default = "gatus-service"
+}
+
+variable "desired-count" {
+  description = "Contains the desired count of tasks running"
+  type = number
+  default = 3
+}
+
+variable "launch-type" {
+  description = "Contains the launch type for ecs service"
+  type = string
+  default = "FARGATE"
+}
+
+variable "platform-version" {
+  description = "Contains the version of platform for Fargate"
+  type = string
+  default = "LATEST"
 }
 
 ########################################################################

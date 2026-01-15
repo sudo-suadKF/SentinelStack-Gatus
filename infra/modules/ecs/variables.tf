@@ -58,10 +58,10 @@ variable "network-mode" {
   type = string
 }
 
-# variable "requires-compatibilities" {
-#   description = "Contains task's required compatibilities"
-#   type = string
-# }
+variable "requires-compatibilities" {
+  description = "Contains task's required compatibilities"
+  type = string
+}
 
 variable "cpu-size" {
   description = "Contains CPU size"
@@ -100,5 +100,25 @@ variable "aws-region" {
 
 variable "aws-stream-prefix" {
   description = "Contains stream prefix"
+  type = string
+}
+
+variable "service-name" {
+  description = "Contains the ecs service name"
+  type = string
+}
+
+variable "desired-count" {
+  description = "Contains the desired count of tasks running"
+  type = number
+}
+
+variable "launch-type" {
+  description = "Contains the launch type for ecs service"
+  type = string
+}
+
+variable "platform-version" {
+  description = "Contains the version of platform for Fargate"
   type = string
 }

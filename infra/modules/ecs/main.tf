@@ -19,7 +19,7 @@ resource "aws_cloudwatch_log_group" "ecs-log-group" {
 resource "aws_ecs_task_definition" "gatus-task" {
   family = var.task-family
   network_mode = var.network-mode
-  requires_compatibilities = ["FARGATE"]
+  requires_compatibilities = [var.requires-compatibilities]
   cpu = var.cpu-size
   memory = var.memory-size
   execution_role_arn = var.execution-role-arn
@@ -54,12 +54,12 @@ resource "aws_ecs_task_definition" "gatus-task" {
 
 # ECS Service
 resource "aws_ecs_service" "gatus-service" {
-  name            = "gatus-service"
+  name            = var.service-name
   cluster         = aws_ecs_cluster.gatus.id
   task_definition = aws_ecs_task_definition.gatus-task.arn
-  desired_count   = 3
-  launch_type     = "FARGATE"
-  platform_version = "LATEST"
+  desired_count   = var.desired-count
+  launch_type     = var.launch-type
+  platform_version = var.platform-version
   
   deployment_circuit_breaker {
     enable   = true
@@ -68,8 +68,8 @@ resource "aws_ecs_service" "gatus-service" {
 
   load_balancer {
     target_group_arn = var.tg-arn
-    container_name   = "gatus-container"
-    container_port   = 8080
+    container_name   = var.container-name
+    container_port   = var.port-app
   }
 
   network_configuration {
