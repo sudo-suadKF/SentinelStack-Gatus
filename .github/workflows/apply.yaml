@@ -22,7 +22,7 @@ jobs:
         steps:
             - name: safety check
               run: |
-                if [ "${{ github.event.inputs.choice }}" != "yes"] && [ "${{ github.event.inputs.choice }}" != "no"]; then
+                if [ "${{ github.event.inputs.choice }}" != "yes" ] && [ "${{ github.event.inputs.choice }}" != "no" ]; then
                 echo "apply cancelled"
                 exit 1
                 fi
