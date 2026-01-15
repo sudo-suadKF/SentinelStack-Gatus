@@ -32,5 +32,16 @@ jobs:
             - name: Terraform init
               run: terraform init
 
+            - name: Run Checkov action
+              id: checkov
+              uses: bridgecrewio/checkov-action@master
+              with:
+                directory: ./infra
+                framework: terraform
+                output_format: cli
+                soft_fail: false
+
+                #skip_check: CKV_AWS_2 # optional: skip a specific check_id. can be comma separated list
+
             - name: Terraform apply
               run: terraform apply --auto-approve
