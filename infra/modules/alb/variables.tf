@@ -162,3 +162,13 @@ variable "certificate-arn" {
   description = "Contains HTTPS certificate arn value"
   type = string
 }
+
+variable "logs-prefix" {
+  description = "Contains prefix name for ALB logs"
+  type = string
+}
+
+variable "bucket-name" {
+  description = "Contains s3 bucet name for ALB logs"
+  type = string
+}

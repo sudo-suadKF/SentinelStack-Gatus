@@ -1,6 +1,10 @@
 resource "aws_acm_certificate" "cert-HTTPS" {
   domain_name       = var.domain-name
   validation_method = var.validation-method
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_acm_certificate_validation" "HTTPS-validation-cert" {
