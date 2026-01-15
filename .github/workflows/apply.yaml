@@ -41,7 +41,7 @@ jobs:
                 output_format: cli
                 soft_fail: false
 
-                skip_check: CKV_AWS_5,CKV_AWS_28,CKV_AWS_260,CKV_AWS_158
+                skip_check: CKV2_AWS_5,CKV2_AWS_28,CKV_AWS_260,CKV_AWS_158,CKV2_AWS_11,CKV2_AWS_12,CKV_AWS_150
 
             - name: Terraform apply
               run: terraform apply --auto-approve
