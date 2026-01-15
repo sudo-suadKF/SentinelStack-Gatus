@@ -395,18 +395,6 @@ variable "tg-attach-port" {
   default     = 8080
 }
 
-variable "logs-prefix" {
-  description = "Contains prefix name for ALB logs"
-  type = string
-  default = "alb"
-}
-
-variable "bucket-name" {
-  description = "Contains s3 bucket name for ALB logs"
-  type = string
-  default = "alb-logs-gatus-ecs"
-}
-
 ########################################################################
 
 # Variables from ACM & Route53 module

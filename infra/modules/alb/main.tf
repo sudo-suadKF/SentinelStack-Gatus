@@ -7,12 +7,6 @@ resource "aws_lb" "alb-gatus" {
   subnets            = [var.public-subnet1-id, var.public-subnet2-id, var.public-subnet3-id]
   drop_invalid_header_fields = true
 
-  access_logs {
-    bucket  = var.bucket-name
-    prefix  = var.logs-prefix
-    enabled = true
-  }
-
   tags = {
     Name = var.alb-tags
   }

@@ -81,9 +81,7 @@ module "alb" {
   tg-target-type                   = var.tg-target-type
   lb-type                          = var.lb-type
   certificate-arn                  = module.acm.certificate-arn
-  logs-prefix                      = var.logs-prefix 
   depends_on                       = [module.acm]
-  bucket-name                      = var.bucket-name
 }
 
 module "acm" {
