@@ -142,13 +142,3 @@ module "iam" {
   iam-role-name = var.iam-role-name
   policy-arn    = var.policy-arn
 }
-
-resource "aws_instance" "example" {
-  ami           = "ami-0a0ff88d0f3f85a14"
-
-  instance_type = "123"
-
-  tags = {
-    Name = "HelloWorld"
-  }
-}
