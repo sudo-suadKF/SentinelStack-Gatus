@@ -2,6 +2,12 @@ name: Terraform destroy
 
 on:
     workflow_dispatch:
+        inputs:
+            choice:
+                description: 'Type yes to destroy the infrastructure'
+                required: true
+                type: string
+                default: ''
 
 defaults: 
     run:
@@ -13,7 +19,15 @@ env:
 jobs: 
     terraform_destroy:
         runs-on: ubuntu-latest
-        steps: 
+        steps:
+            - name: safety check
+              run: |
+                if [ "${{ github.event.inputs.choice }}" != "yes" ]; then
+                echo "destroy cancelled"
+                exit 1
+                fi
+              working-directory: .
+            
             - name: Checkout code
               uses: actions/checkout@v4
 
