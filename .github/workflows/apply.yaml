@@ -2,6 +2,12 @@ name: Terraform apply
 
 on:
     workflow_dispatch:
+        inputs:
+            choice:
+                description: 'would you like to apply the infrastructure, yes or no?'
+                required: true
+                type: string
+                default: ''
 
 defaults: 
     run:
@@ -13,7 +19,20 @@ env:
 jobs: 
     terraform_apply:
         runs-on: ubuntu-latest
-        steps: 
+        steps:
+            - name: safety check
+              run: |
+                if [ "${{ github.event.inputs.choice }}" != "yes"] && [ "${{ github.event.inputs.choice }}" != "no"]; then
+                echo "apply cancelled"
+                exit 1
+                fi
+              working-directory: .
+
+            - name: choice = no
+              if: ${{ github.event.inputs.choice == 'no' }}
+              run: exit 1
+              working-directory: .
+
             - name: Checkout code
               uses: actions/checkout@v4
 
@@ -24,6 +43,10 @@ jobs:
                 aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 aws-region: ${{ env.AWS_REGION }}
             
+            - name: choice = yes
+              if: ${{ github.event.inputs.choice == 'yes' }}
+              run: exit 0
+
             - name: Setup Terraform
               uses: hashicorp/setup-terraform@v3
               with:
