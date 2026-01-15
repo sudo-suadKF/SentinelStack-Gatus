@@ -24,7 +24,7 @@ jobs:
               run: aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com
             
             - name: Build docker image
-              run: docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:latest ./infra
+              run: docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:latest ./gatus
             
             - name: Push docker image
               run: docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:latest
