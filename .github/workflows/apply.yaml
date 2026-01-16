@@ -9,6 +9,10 @@ on:
                 type: string
                 default: ''
 
+permissions:
+  id-token: write
+  contents: read
+
 defaults: 
     run:
         working-directory: ./infra
@@ -31,11 +35,17 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
-            - name: Connect to AWS
-              uses: aws-actions/configure-aws-credentials@v2
-              with: 
-                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            # - name: Connect to AWS
+            #   uses: aws-actions/configure-aws-credentials@v2
+            #   with: 
+            #     aws-access-key-id: $ {{ secrets.AWS_ACCESS_KEY_ID }}
+            #     aws-secret-access-key: $ {{ secrets.AWS_SECRET_ACCESS_KEY }}
+            #     aws-region: $ {{ env.AWS_REGION }}
+
+            - name: Configure AWS credentials (OIDC)
+              uses: aws-actions/configure-aws-credentials@v5
+              with:
+                role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/oidc-role
                 aws-region: ${{ env.AWS_REGION }}
 
             - name: Setup Terraform
@@ -58,4 +68,4 @@ jobs:
                 skip_check: CKV2_AWS_5,CKV2_AWS_28,CKV_AWS_260,CKV_AWS_158,CKV2_AWS_11,CKV2_AWS_12,CKV_AWS_150,CKV_AWS_91
 
             - name: Terraform apply
-              run: terraform apply --auto-approve
+              run: terraform plan
