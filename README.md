@@ -241,6 +241,7 @@ Screenshots of the CI/CD pipelines working:
 ![alt text](resources/terraform_lint.png)
 ![alt text](resources/terraform_apply.png)
 ![alt text](resources/terraform_destroy.png)
+
 ---
 
 ## Future improvements
