@@ -32,7 +32,7 @@ response:
 
 Created a dockerfile that does the following:
 - Multistage file
-- Non-root user and small image footprint (47.4 MB) in 112s
+- Non-root user and small image footprint (47.4 MB) in 97s
 - a scratch image as final image
 
 by running following commands:
@@ -51,43 +51,68 @@ The working image for the app is pushed to ECR for storing the image.
 This is done because later ECS will pull the image from ECR to run the app. 
 First a private repository is created in ECR and then the image is pushed by following commands:
 
-aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 541064517911.dkr.ecr.eu-west-2.amazonaws.com (logged in to the repository in ECR)
+aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin "aws account id".dkr.ecr.eu-west-2.amazonaws.com (logged in to the repository in ECR)
 docker build -t gatus-ecs-project .
-docker tag gatus-ecs-project:latest 541064517911.dkr.ecr.eu-west-2.amazonaws.com/gatus-ecs-project:v1 (tagged with v1)
-docker push 541064517911.dkr.ecr.eu-west-2.amazonaws.com/gatus-ecs-project:v1 (pushed to ECR)
+docker tag gatus-ecs-project:latest "aws account id".dkr.ecr.eu-west-2.amazonaws.com/gatus-ecs-project:v1 (tagged with v1)
+docker push "aws account id".dkr.ecr.eu-west-2.amazonaws.com/gatus-ecs-project:v1 (pushed to ECR)
 
 4. AWS Infrastructure
 
 Firstly, built the infrastructure in AWS with ClickOps. 
+My infrastrucutre includes:
+- a VPC with 3 AZs and a public and private subnet in each AZ.
+- an internet gateway that inbounds internet traffic
+- a regional nat gateway that outbounds traffic from the infrastructure.
+- a multi AZ ALB, in every AZs/public subnet, collecting the inbound traffic HTTP and HTTPS from internet gateway, redirects the HTTP to HTTPS.
+- an ecs service and cluster with Fargate, across all private subnets/AZs, receiving traffic from ALB, running a task in each private subnet and fetching the docker image from ECR.
+- an ECR repository with the docker image stored.
+- a CloudWatch log group for receiving live logs from the ECS service
+- a SSL certificate for HTTPS to the ALB's domain tm.sudosuad.co.uk
+- a route53 record for the domain tm.sudosuad.co.uk.
+- two security groups, one for ALB and one for ECS
+- a target group that targets the ecs tasks and guides the traffic from alb to the tasks.
+- two listeners, one for HTTP and one for HTTPS.
+- an iam role for ecs task execution role which allows the tasks to execute...
+
 
 5. Terraform
 
-I teared down the whole clickops infrastructure and then built it in Terraform with following stuff included: 
+Teared down the whole clickops infrastructure and then built it in Terraform with following stuff included: 
 
-Terraform
-- Add .terraform.lock.hcl to .gitignore. Done
-- Move provider configuration into a separate provider.tf file. Done
-- Reference values dynamically using data blocks (for Route 53 or Cloudflare IDs). Done
-- Automate ACM certificate creation using a module or script. Done
-- Add an HTTP → HTTPS redirect on the load balancer. Done
-- Use an S3 backend with native state locking (DynamoDB optional). Done
-- Create modules for VPC, ACM, ALB, ECS and Security Groups. Done
-- Avoid hard-coded values — everything should be variable-driven and defined in .tfvars. Done
-- Keep the code DRY and maintain consistent naming and tagging. Done
-
-Minimum Resources
-VPC with public subnets Done
-ECS cluster + Fargate service Done
-ECR repository Done
-ALB + listener + target Group Done
-ACM certificate Done
-Route53 record for tm.<your-domain> Done
-IAM roles/policies for ECS tasks Done
-Security groups, SSM parameters if needed. Done
-
-Bonus
-Use S3 backend + DynamoDB locking Done
+- a provider configuration with s3 backend, a s3 bucket for storing the terraform state file and a dynamoDB state locking
+- the whole infrastructure modularised in each modules, ALB, VPC, ACM. ECR, ECS, IAM, Route53 and SG
+- all hard-coded values variablised and defined in root variable.tf file
+- the code was kept DRY with consistent naming and tagging.
 
 
+6. CI/CD pipelines
+
+Created 4 pipelines for each purpose:
+
+- One pipeline for building and pushing the docker image to ECR with Trivy scanner that checks the for any vulnerabilities in the docker image. Since the image is built with scratch and is basically distroless, there were no vulnerabilities. 
+
+- One pipeline for Terraform linting, running init, fmt, validate and plan commands. Checkov action is included right before running the plan to check for any security issues.
+
+- One pipeline for Terraform apply, running apply command to build the infrastructure in AWS. Checkov action is included  right before running the apply to check for any security issues. 
+
+- One pipeline for Terraform destroy, running destroy command to destroy the infrastructure in AWS. 
+
+All the pipelines above are:
+- built with workflow dispatch that asks the user to type in 'yes' to run the pipelines. 
+- configured with a safety check before checking the code to see if the user has typed 'yes' to continue, otherwise if something else is typed then the code will stop and exit.
+- configured with OIDC to connect to AWS by creating a new identity provider and an IAM role in AWS manually and linking the policy to this repository and main branch. 
+
+
+
+7. Security and Networking implementation
+- ECS tasks running within private subnets.
+- A regional NAT Gateway to allow ECS outbound traffic.
+- Restrict security groups (ALB allows ports 80/443; ECS accepts traffic only from the ALB security group).
+- Enabled HTTPS by default.
+- Used IAM roles with least-privilege access for ECS and pipelines.
+- Incorporated security scanning tools such as Trivy and Checkov.
+
+
+8. Repository infrastructure
 
 
