@@ -230,10 +230,10 @@ Expected response:
 ```
 ---
 
-## Screenshots and demo
-A short demo of the Gatus app deployed on the web browser:
+## Screenshots
+Screenshot of the Gatus app deployed on the web browser:
 
-<video controls src="resources/giphy.mp4" title="Title"></video>
+![alt text](resources/gatus_app.png)
 
 Screenshots of the CI/CD pipelines working:
 
