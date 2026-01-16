@@ -1,118 +1,258 @@
-# gatus-ecs-project
+# Gatus on AWS ECS (Terraform + CI/CD)
 
-1. Application setup
+![Terraform](https://img.shields.io/badge/Terraform-1.0%2B-623CE4?logo=terraform)
+![AWS](https://img.shields.io/badge/AWS-ECS%20%7C%20ALB%20%7C%20ECR-orange?logo=amazonaws)
+![CI/CD](https://img.shields.io/badge/GitHub_Actions-CI%2FCD-2088FF?logo=githubactions)
+![Security](https://img.shields.io/badge/Security-Trivy%20%7C%20Checkov-green)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
-Created a directory where I cloned the repo. Then I deleted the .git folder to remove the clone from the gatus repo and to be able to connect to my own repo by:
+<img src="/resources/ECS_project.drawio (1).png"></img>
 
-mkdir gatus-ecs-project
-git clone git@github.com:TwiN/gatus.git
+---
+
+## Overview
+
+This project deploys **Gatus**, a lightweight uptime and health monitoring service, on **AWS ECS (Fargate)** using **fully modular Terraform** and **secure, manual-triggered CI/CD pipelines**.
+
+The goal is not just to run an application, but to demonstrate how to design and operate a **production-ready cloud setup** with strong defaults around security, networking, reliability, and maintainability, the kind of decisions that matter in real teams and real systems.
+
+---
+
+## What problem this solves
+
+Many demo projects stop at “it runs.” This project goes further and answers:
+
+- How do you run a containerized app **securely** in AWS without public compute?
+- How do you manage infrastructure **reproducibly** instead of with ClickOps?
+- How do you control deployments and destruction **safely**?
+- How do you keep images and infrastructure **continuously scanned**?
+
+The result is a clean reference architecture for running a stateless service on AWS with minimal operational risk.
+
+---
+
+## High-level architecture
+
+- **Application**: Gatus (Go binary, statically compiled)
+- **Compute**: ECS with Fargate (no servers to manage)
+- **Networking**:
+  - VPC spanning **3 Availability Zones**
+  - Public subnets for ALB
+  - Private subnets for ECS tasks
+  - NAT Gateway for controlled outbound access
+- **Traffic flow**:
+  - Internet → ALB (HTTP redirected to HTTPS)
+  - ALB → Target Group → ECS tasks
+- **Security**:
+  - HTTPS via ACM
+  - Strict security groups
+  - IAM roles with least privilege
+- **State & DNS**:
+  - Terraform remote state in S3 with DynamoDB locking
+  - Route53 public hosted zone
+- **CI/CD**:
+  - GitHub Actions with OIDC (no long-lived AWS keys)
+
+---
+
+## Key technical decisions (and why they matter)
+
+### Container build (Golang + Docker)
+
+- **Multi-stage Docker build**
+- **Scratch final image**
+- **Non-root user**
+- **Static binary (CGO disabled)**
+
+Why this matters:
+- Very small attack surface
+- No OS-level vulnerabilities (confirmed via Trivy)
+- Faster cold starts and lower image transfer costs
+- Strong security posture by default
+- Very small image (~47 MB)
+
+---
+
+### ECS on Fargate (private subnets)
+
+- ECS tasks run **only in private subnets**
+- No public IPs assigned
+- ALB is the only internet-facing component
+
+Why this matters:
+- Reduces blast radius
+- Prevents accidental public exposure
+- Matches real-world enterprise patterns
+
+---
+
+### Application Load Balancer
+
+- Multi-AZ ALB
+- HTTP → HTTPS redirect
+- Health checks aligned with `/health`
+
+Why this matters:
+- High availability by default
+- Enforced encryption
+- Clean separation of traffic management from compute
+
+---
+
+### Infrastructure as Code (Terraform)
+
+- Fully modular structure:
+  - VPC
+  - ALB
+  - ECS
+  - ECR
+  - IAM
+  - ACM
+  - Route53
+  - Security Groups
+- Remote state stored in S3
+- DynamoDB state locking
+- All values variablized and DRY
+
+Why this matters:
+- Safe collaboration
+- Predictable environments
+- Easy teardown and rebuild
+- No hidden manual configuration
+
+---
+
+### CI/CD pipelines (GitHub Actions)
+
+Four **manual-triggered** pipelines:
+
+1. **Docker build & push**
+   - Builds image
+   - Scans with Trivy
+   - Pushes to ECR only if clean
+
+2. **Terraform linting**
+   - `fmt`, `validate`, `plan`
+   - Checkov security scan (soft fail)
+
+3. **Terraform apply**
+   - Safety prompt (`type yes`)
+   - Checkov security scan (hard fail)
+   - Applies infrastructure
+
+4. **Terraform destroy**
+   - Explicit confirmation required
+   - Clean teardown
+
+All pipelines use **OIDC** to assume an AWS role, no long-lived access keys.
+
+Why this matters:
+- No accidental deploys or deletes
+- Security checks baked into workflows
+- OIDC removes the need for static AWS credentials
+
+---
+
+## Security and networking highlights
+
+- ECS tasks run only in private subnets
+- Regional NAT Gateway for controlled outbound traffic
+- ALB only allows ports 80 and 443
+- ECS only accepts traffic from the ALB security group
+- HTTPS enabled by default with ACM
+- Least-privilege IAM roles
+- Image scanning (Trivy) and IaC scanning (Checkov)
+
+This mirrors how production environments are typically locked down.
+
+---
+
+## Repository structure
+```
+.
+├── gatus/
+│ ├── Dockerfile
+│ ├── config.yaml
+│ ├── go.mod
+│ ├── go.sum
+│ └── (application source)
+│
+├── infra/
+│ ├── main.tf
+│ ├── providers.tf
+│ ├── variables.tf
+│ ├── outputs.tf
+│ └── modules/
+│ ├── vpc/
+│ ├── alb/
+│ ├── ecs/
+│ ├── ecr/
+│ ├── iam/
+│ ├── acm/
+│ ├── route53/
+│ └── sg/
+│
+├── .github/
+│ └── workflows/
+│ ├── docker-build-push.yaml
+│ ├── terraform-linting.yaml
+│ ├── terraform-apply.yaml
+│ └── terraform-destroy.yaml
+│
+└── README.md
+```
+
+---
+
+## Tech stack
+
+- **App**: Go
+- **Containerization**: Docker
+- **Cloud**: AWS (ECS, ALB, ECR, VPC, Route53, ACM, IAM)
+- **Infrastructure as Code**: Terraform
+- **CI/CD**: GitHub Actions (OIDC)
+- **Security**: Trivy, Checkov
+- **Logging**: CloudWatch Logs
+
+---
+
+## Run locally
+
+```bash
 cd gatus
-rm -rf .git
-cd ..
-git init
-echo "# gatus-ecs-project" >> README.md
-git add .
-git commit -m "first commit"
-git branch -M main
-git remote add origin git@github.com:sudo-suadKF/gatus-ecs-project.git
-git push -u origin main
-
-Then I used the developer's own dockerfile to build an image and run a container to check if the app is up and running by following commands:
-
-cd gatus (enter the app's directory)
-docker build -t test:latest . (build the image of the dockerfile)
-docker run -d --name testlocal -p 8080:8080 test:latest (build and run a container of the image)
-
-then I checked the status by:
-curl http://localhost:8080/health
-response:
-{"status":"UP"}%
-
-2. Containerisation
-
-Created a dockerfile that does the following:
-- Multistage file
-- Non-root user and small image footprint (47.4 MB) in 97s
-- a scratch image as final image
-
-by running following commands:
-
 docker build -t gatus:latest .
-docker run -d --name gatusapp -p 8080:8080 gatus:latest
+docker run -d -p 8080:8080 gatus:latest
+curl http://localhost:8080/health
+```
+Expected response:
+```bash
+{"status":"UP"}
+```
+---
 
-added .dockerignore for:
-- faster builds
-- smaller image sizes
-- better security
+## Screenshots and demo
+A short demo of the Gatus app deployed on the web browser:
 
-3. Image Registry ECR
+<video controls src="resources/giphy.mp4" title="Title"></video>
 
-The working image for the app is pushed to ECR for storing the image. 
-This is done because later ECS will pull the image from ECR to run the app. 
-First a private repository is created in ECR and then the image is pushed by following commands:
+Screenshots of the CI/CD pipelines working:
 
-aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin "aws account id".dkr.ecr.eu-west-2.amazonaws.com (logged in to the repository in ECR)
-docker build -t gatus-ecs-project .
-docker tag gatus-ecs-project:latest "aws account id".dkr.ecr.eu-west-2.amazonaws.com/gatus-ecs-project:v1 (tagged with v1)
-docker push "aws account id".dkr.ecr.eu-west-2.amazonaws.com/gatus-ecs-project:v1 (pushed to ECR)
+![](resources/docker.png)
+![alt text](resources/terraform_lint.png)
+![alt text](resources/terraform_apply.png)
+![alt text](resources/terraform_destroy.png)
+---
 
-4. AWS Infrastructure
+## Future improvements
 
-Firstly, built the infrastructure in AWS with ClickOps. 
-My infrastrucutre includes:
-- a VPC with 3 AZs and a public and private subnet in each AZ.
-- an internet gateway that inbounds internet traffic
-- a regional nat gateway that outbounds traffic from the infrastructure.
-- a multi AZ ALB, in every AZs/public subnet, collecting the inbound traffic HTTP and HTTPS from internet gateway, redirects the HTTP to HTTPS.
-- an ecs service and cluster with Fargate, across all private subnets/AZs, receiving traffic from ALB, running a task in each private subnet and fetching the docker image from ECR.
-- an ECR repository with the docker image stored.
-- a CloudWatch log group for receiving live logs from the ECS service
-- a SSL certificate for HTTPS to the ALB's domain tm.sudosuad.co.uk
-- a route53 record for the domain tm.sudosuad.co.uk.
-- two security groups, one for ALB and one for ECS
-- a target group that targets the ecs tasks and guides the traffic from alb to the tasks.
-- two listeners, one for HTTP and one for HTTPS.
-- an iam role for ecs task execution role which allows the tasks to execute...
+- Add autoscaling policies based on ALB metrics
+- Introduce blue/green or canary deployments
+- Add WAF in front of the ALB
+- Parameterize environment support (dev/stage/prod)
+- Add synthetic monitoring for the monitoring system itself
 
+---
 
-5. Terraform
-
-Teared down the whole clickops infrastructure and then built it in Terraform with following stuff included: 
-
-- a provider configuration with s3 backend, a s3 bucket for storing the terraform state file and a dynamoDB state locking
-- the whole infrastructure modularised in each modules, ALB, VPC, ACM. ECR, ECS, IAM, Route53 and SG
-- all hard-coded values variablised and defined in root variable.tf file
-- the code was kept DRY with consistent naming and tagging.
-
-
-6. CI/CD pipelines
-
-Created 4 pipelines for each purpose:
-
-- One pipeline for building and pushing the docker image to ECR with Trivy scanner that checks the for any vulnerabilities in the docker image. Since the image is built with scratch and is basically distroless, there were no vulnerabilities. 
-
-- One pipeline for Terraform linting, running init, fmt, validate and plan commands. Checkov action is included right before running the plan to check for any security issues.
-
-- One pipeline for Terraform apply, running apply command to build the infrastructure in AWS. Checkov action is included  right before running the apply to check for any security issues. 
-
-- One pipeline for Terraform destroy, running destroy command to destroy the infrastructure in AWS. 
-
-All the pipelines above are:
-- built with workflow dispatch that asks the user to type in 'yes' to run the pipelines. 
-- configured with a safety check before checking the code to see if the user has typed 'yes' to continue, otherwise if something else is typed then the code will stop and exit.
-- configured with OIDC to connect to AWS by creating a new identity provider and an IAM role in AWS manually and linking the policy to this repository and main branch. 
-
-
-
-7. Security and Networking implementation
-- ECS tasks running within private subnets.
-- A regional NAT Gateway to allow ECS outbound traffic.
-- Restrict security groups (ALB allows ports 80/443; ECS accepts traffic only from the ALB security group).
-- Enabled HTTPS by default.
-- Used IAM roles with least-privilege access for ECS and pipelines.
-- Incorporated security scanning tools such as Trivy and Checkov.
-
-
-8. Repository infrastructure
+This repository is meant to show how decisions are made, not just that things work.
 
 
