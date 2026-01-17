@@ -1,4 +1,4 @@
-# Gatus on AWS ECS (Terraform + CI/CD)
+# SentinelStack - Production-Grade Gatus on AWS ECS
 
 ![Terraform](https://img.shields.io/badge/Terraform-1.0%2B-623CE4?logo=terraform)
 ![AWS](https://img.shields.io/badge/AWS-ECS%20%7C%20ALB%20%7C%20ECR-orange?logo=amazonaws)
