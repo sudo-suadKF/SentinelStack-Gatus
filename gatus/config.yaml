@@ -1,36 +1,37 @@
 endpoints:
-  - name: front-end
+  - name: amaris-in-action
     group: core
-    url: "https://amaris.com"
+    url: "https://amaris.com/amaris-in-action/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
-      - "[BODY].status == UP"
-      - "[RESPONSE_TIME] < 150"
+      - "[RESPONSE_TIME] < 500"
 
-  - name: back-end
+  - name: amaris-contact-us
     group: core
-    url: "https://amaris.com/"
+    url: "https://amaris.com/contact-us/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+      - "[RESPONSE_TIME] < 500"
 
-  - name: monitoring
-    group: internal
-    url: "https://amaris.com/"
+  - name: amaris-center-of-excellence
+    group: core
+    url: "https://amaris.com/amaris-centers-of-excellence/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"
 
-  - name: nas
-    group: internal
-    url: "https://amaris.com/"
+  - name: amaris-about-us
+    group: core
+    url: "https://amaris.com/about-us/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"
 
-  - name: example-dns-query
+  - name: amaris-dns-query
     url: "8.8.8.8" # Address of the DNS server to use
     interval: 5m
     dns:
@@ -40,14 +41,10 @@ endpoints:
       - "[BODY] == pat(*.*.*.*)"  # Matches any IPv4 address
       - "[DNS_RCODE] == NOERROR"
 
-  - name: icmp-ping
-    url: "icmp://amaris.com"
-    interval: 1m
-    conditions:
-      - "[CONNECTED] == true"
-
-  - name: check-domain-expiration
+  - name: amaris-main-page
+    group: core
     url: "https://amaris.com/"
     interval: 1h
     conditions:
-      - "[DOMAIN_EXPIRATION] > 720h"
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"
