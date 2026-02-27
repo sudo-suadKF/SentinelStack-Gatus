@@ -1,49 +1,49 @@
 endpoints:
-  - name: amaris-in-action
+  - name: segula-group-at-a-glance
     group: core
-    url: "https://amaris.com/amaris-in-action/"
+    url: "https://www.segulatechnologies.com/en/group/at-a-glance/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: amaris-contact-us
+  - name: segula-careers
     group: core
-    url: "https://amaris.com/contact-us/"
+    url: "https://careers.segulatechnologies.com/en/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: amaris-center-of-excellence
+  - name: segula-innovation
     group: core
-    url: "https://amaris.com/amaris-centers-of-excellence/"
+    url: "https://www.segulatechnologies.com/en/innovation/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: amaris-about-us
+  - name: segula-latest-news
     group: core
-    url: "https://amaris.com/about-us/"
+    url: "https://www.segulatechnologies.com/en/latest-news/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: amaris-dns-query
+  - name: segula-dns-query
     url: "8.8.8.8" # Address of the DNS server to use
     interval: 5m
     dns:
-      query-name: "amaris.com"
+      query-name: "segulatechnologies.com"
       query-type: "A"
     conditions:
       - "[BODY] == pat(*.*.*.*)"  # Matches any IPv4 address
       - "[DNS_RCODE] == NOERROR"
 
-  - name: amaris-main-page
+  - name: segula-main-page
     group: core
-    url: "https://amaris.com/"
+    url: "https://www.segulatechnologies.com/en/"
     interval: 1h
     conditions:
       - "[STATUS] == 200"
