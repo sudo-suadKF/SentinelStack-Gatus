@@ -1,49 +1,49 @@
 endpoints:
-  - name: segula-group-at-a-glance
+  - name: digital-by-quokka-innovation
     group: core
-    url: "https://www.segulatechnologies.com/en/group/at-a-glance/"
+    url: "https://digitalbyquokka.se/innovation"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: segula-careers
+  - name: digital-by-quokka-about
     group: core
-    url: "https://careers.segulatechnologies.com/en/"
+    url: "https://digitalbyquokka.se/about"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: segula-innovation
+  - name: digital-by-quokka
     group: core
-    url: "https://www.segulatechnologies.com/en/innovation/"
+    url: "https://digitalbyquokka.se/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: segula-latest-news
+  - name: quokka-about
     group: core
-    url: "https://www.segulatechnologies.com/en/latest-news/"
+    url: "https://quokka.se/about"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: segula-dns-query
+  - name: quokka-dns-query
     url: "8.8.8.8" # Address of the DNS server to use
     interval: 5m
     dns:
-      query-name: "segulatechnologies.com"
+      query-name: "quokka.se"
       query-type: "A"
     conditions:
       - "[BODY] == pat(*.*.*.*)"  # Matches any IPv4 address
       - "[DNS_RCODE] == NOERROR"
 
-  - name: segula-main-page
+  - name: quokka-main-page
     group: core
-    url: "https://www.segulatechnologies.com/en/"
+    url: "https://quokka.se/"
     interval: 1h
     conditions:
       - "[STATUS] == 200"

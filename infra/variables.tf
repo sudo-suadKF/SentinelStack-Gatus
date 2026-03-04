@@ -401,7 +401,7 @@ variable "tg-attach-port" {
 variable "domain-name" {
   description = "Contains the domain name"
   type        = string
-  default     = "segula.sudosuad.co.uk"
+  default     = "digitalbyquokka.sudosuad.co.uk"
 }
 
 variable "validation-method" {
