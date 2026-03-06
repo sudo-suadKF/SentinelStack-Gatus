@@ -35,7 +35,7 @@ endpoints:
     url: "8.8.8.8" # Address of the DNS server to use
     interval: 5m
     dns:
-      query-name: "https://www.opera.com/"
+      query-name: "opera.com"
       query-type: "A"
     conditions:
       - "[BODY] == pat(*.*.*.*)"  # Matches any IPv4 address
