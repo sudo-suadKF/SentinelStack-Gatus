@@ -31,6 +31,10 @@ jobs:
           
             - name: Checkout code
               uses: actions/checkout@v4
+              
+            - name: Set image metadata
+              id: meta
+              run: echo "tag=${GITHUB_SHA}" >> $GITHUB_OUTPUT
 
             # - name: Connect to AWS
             #   uses: aws-actions/configure-aws-credentials@v2
@@ -49,12 +53,12 @@ jobs:
               run: aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com
             
             - name: Build docker image
-              run: docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:latest ./gatus
+              run: docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:${{ steps.meta.outputs.tag }} ./gatus
 
             - name: Run Trivy vulnerability scanner
               uses: aquasecurity/trivy-action@0.33.1
               with:
-                image-ref: '${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:latest'
+                image-ref: '${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:${{ steps.meta.outputs.tag }}'
                 format: 'table'
 
                 # ADD THE FOLLOWING LINES FOR GOOD SECURITY, WITH THE FOLLOWING LINES IN PLACE, IT WILL NOT BUILD THE IMAGE IF THERE ARE CRITICAL VULNERABILITIES. SINCE I DID NOT BUILD THIS APP AND THERE ARE NO
@@ -66,4 +70,4 @@ jobs:
                 
             
             - name: Push docker image
-              run: docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:latest
+              run: docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:${{ steps.meta.outputs.tag }}
