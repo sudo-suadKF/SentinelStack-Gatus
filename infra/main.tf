@@ -135,6 +135,7 @@ module "ecs" {
 module "ecr" {
   source          = "./modules/ecr"
   repository-name = var.repository-name
+  image-tag = var.image-tag
 }
 
 module "iam" {
