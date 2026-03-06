@@ -72,4 +72,4 @@ jobs:
                 soft_fail: true
 
             - name: Terraform plan
-              run: terraform plan
+              run: terraform plan -var="image-tag=${{ github.sha }}"
