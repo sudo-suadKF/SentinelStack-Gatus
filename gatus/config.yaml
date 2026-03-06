@@ -1,7 +1,7 @@
 endpoints:
-  - name: opera-ai
+  - name: opera-one
     group: core
-    url: "https://www.opera.com/features/opera-ai"
+    url: "https://www.opera.com/one"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
