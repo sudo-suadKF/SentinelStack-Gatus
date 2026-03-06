@@ -1,49 +1,49 @@
 endpoints:
-  - name: digital-by-quokka-innovation
+  - name: opera-ai
     group: core
-    url: "https://digitalbyquokka.se/innovation"
+    url: "https://www.opera.com/features/opera-ai"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: digital-by-quokka-about
+  - name: opera-products
     group: core
-    url: "https://digitalbyquokka.se/about"
+    url: "https://www.opera.com/products"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: digital-by-quokka
+  - name: opera-news
     group: core
-    url: "https://digitalbyquokka.se/"
+    url: "https://press.opera.com/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: quokka-about
+  - name: opera-about
     group: core
-    url: "https://quokka.se/about"
+    url: "https://www.opera.com/about"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: quokka-dns-query
+  - name: opera-dns-query
     url: "8.8.8.8" # Address of the DNS server to use
     interval: 5m
     dns:
-      query-name: "quokka.se"
+      query-name: "opera.com"
       query-type: "A"
     conditions:
       - "[BODY] == pat(*.*.*.*)"  # Matches any IPv4 address
       - "[DNS_RCODE] == NOERROR"
 
-  - name: quokka-main-page
+  - name: opera-main-page
     group: core
-    url: "https://quokka.se/"
+    url: "https://www.opera.com/"
     interval: 1h
     conditions:
       - "[STATUS] == 200"
