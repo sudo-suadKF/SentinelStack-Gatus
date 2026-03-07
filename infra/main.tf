@@ -1,3 +1,7 @@
+data "aws_ssm_parameter" "image-tag" {
+  name = "/gatus/image-tag"
+}
+
 module "vpc" {
   source                   = "./modules/vpc"
   vpc-cidr                 = var.vpc-cidr
@@ -135,7 +139,7 @@ module "ecs" {
 module "ecr" {
   source          = "./modules/ecr"
   repository-name = var.repository-name
-  image-tag = var.image-tag
+  image-tag = data.aws_ssm_parameter.image-tag.value
 }
 
 module "iam" {

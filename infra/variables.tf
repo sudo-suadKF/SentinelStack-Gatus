@@ -437,11 +437,6 @@ variable "repository-name" {
   default     = "gatus-ecs-project"
 }
 
-variable "image-tag" {
-  description = "Image tag"
-  type = string
-}
-
 ########################################################################
 
 # Variables from IAM module:
