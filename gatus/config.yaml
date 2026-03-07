@@ -7,7 +7,7 @@ endpoints:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: opera-products
+  - name: opera-our-products
     group: core
     url: "https://www.opera.com/products"
     interval: 5m
