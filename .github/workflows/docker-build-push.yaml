@@ -71,3 +71,12 @@ jobs:
             
             - name: Push docker image
               run: docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:${{ steps.meta.outputs.tag }}
+            
+            - name: Store image tag in SSM
+              run: |
+                aws ssm put-parameter \
+                  --name "/gatus/image-tag" \
+                  --value "${{ steps.meta.outputs.tag }}" \
+                  -- type "String" \
+                  --region ${{ env.AWS_REGION }} \
+                  --overwrite
