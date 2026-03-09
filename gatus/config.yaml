@@ -1,49 +1,49 @@
 endpoints:
-  - name: opera-one
+  - name: cgi-blog
     group: core
-    url: "https://www.opera.com/one"
+    url: "https://www.cgi.com/se/sv/blogg"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: opera-our-products
+  - name: cgi-insights
     group: core
-    url: "https://www.opera.com/products"
+    url: "https://www.cgi.com/se/sv/cgi-insights"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: opera-news
+  - name: cgi-news
     group: core
-    url: "https://press.opera.com/"
+    url: "https://www.cgi.com/se/sv/mediacenter/press-releases"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: opera-about
+  - name: cgi-about
     group: core
-    url: "https://www.opera.com/about"
+    url: "https://www.cgi.com/se/sv/cgi-sverige"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: opera-dns-query
+  - name: cgi-dns-query
     url: "8.8.8.8" # Address of the DNS server to use
     interval: 5m
     dns:
-      query-name: "opera.com"
+      query-name: "cgi.com"
       query-type: "A"
     conditions:
       - "[BODY] == pat(*.*.*.*)"  # Matches any IPv4 address
       - "[DNS_RCODE] == NOERROR"
 
-  - name: opera-main-page
+  - name: cgi-main-page
     group: core
-    url: "https://www.opera.com/"
+    url: "https://www.cgi.com/se/sv"
     interval: 1h
     conditions:
       - "[STATUS] == 200"
