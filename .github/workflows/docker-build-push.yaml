@@ -56,7 +56,7 @@ jobs:
               run: docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:${{ steps.meta.outputs.tag }} ./gatus
 
             - name: Run Trivy vulnerability scanner
-              uses: aquasecurity/trivy-action@0.33.1
+              uses: aquasecurity/trivy-action@0.28.0
               with:
                 image-ref: '${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:${{ steps.meta.outputs.tag }}'
                 format: 'table'
