@@ -67,6 +67,14 @@ jobs:
                 # severity: 'CRITICAL,HIGH'
                 # exit-code: '1'
                 # ignore-unfixed: true
+
+            - name: Scan image
+              uses: anchore/scan-action@v7
+              with:
+                image: '${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:${{ steps.meta.outputs.tag }}'
+                fail-build: true
+                severity-cutoff: critical,high
+                output-format: table
                 
             
             - name: Push docker image
