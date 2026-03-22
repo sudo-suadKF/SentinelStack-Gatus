@@ -73,7 +73,7 @@ jobs:
               with:
                 image: '${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:${{ steps.meta.outputs.tag }}'
                 fail-build: true
-                severity-cutoff: high
+                severity-cutoff: medium
                 output-format: table
                 
             
