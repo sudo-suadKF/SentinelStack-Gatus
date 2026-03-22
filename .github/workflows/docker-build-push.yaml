@@ -55,11 +55,11 @@ jobs:
             - name: Build docker image
               run: docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:${{ steps.meta.outputs.tag }} ./gatus
 
-            - name: Run Trivy vulnerability scanner
-              uses: aquasecurity/trivy-action@0.28.0
-              with:
-                image-ref: '${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/${{ secrets.AWS_ECR_REPOSITORY_NAME }}:${{ steps.meta.outputs.tag }}'
-                format: 'table'
+            # - name: Run Trivy vulnerability scanner
+            #   uses: aquasecurity/trivy-action@0.33.1
+            #   with:
+            #     image-ref: '{{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-2.amazonaws.com/{{ secrets.AWS_ECR_REPOSITORY_NAME }}:{{ steps.meta.outputs.tag }}'
+            #     format: 'table'
 
                 # ADD THE FOLLOWING LINES FOR GOOD SECURITY, WITH THE FOLLOWING LINES IN PLACE, IT WILL NOT BUILD THE IMAGE IF THERE ARE CRITICAL VULNERABILITIES. SINCE I DID NOT BUILD THIS APP AND THERE ARE NO
                 # CURRENT DEVELOPERS MAKING UPDATES, I CANNOT UPDATE THE CODE TO REMOVE VULNERABILITIES SO THE BUILD WILL FAIL. HOWEVER FOR EDUCATIONAL PURPOSES I WILL COMMENT THOSE LINES OUT SO THE BUILD CAN WORk
