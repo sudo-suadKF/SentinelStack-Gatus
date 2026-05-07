@@ -1,49 +1,49 @@
 endpoints:
-  - name: opera-press-team
+  - name: västtrafik-västlänken
     group: core
-    url: "https://www.opera.com/newsroom/"
+    url: "https://www.vasttrafik.se/info/vastlanken/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: opera-products
+  - name: västtrafik-reseplanering
     group: core
-    url: "https://www.opera.com/products/"
+    url: "https://www.vasttrafik.se/reseplanering/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: opera-news
+  - name: västtrafik-nyheter
     group: core
-    url: "https://blogs.opera.com/news/"
+    url: "https://www.vasttrafik.se/om-vasttrafik/nyhetsarkiv/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: opera-about
+  - name: västtrafik-om-oss
     group: core
-    url: "https://www.opera.com/about/"
+    url: "https://www.vasttrafik.se/om-vasttrafik/vasttrafik-ab/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: opera-dns-query
+  - name: västtrafik-dns-query
     url: "8.8.8.8" # Address of the DNS server to use
     interval: 5m
     dns:
-      query-name: "opera.com"
+      query-name: "västtrafik.se"
       query-type: "A"
     conditions:
       - "[BODY] == pat(*.*.*.*)"  # Matches any IPv4 address
       - "[DNS_RCODE] == NOERROR"
 
-  - name: opera-main-page
+  - name: västtrafik
     group: core
-    url: "https://www.opera.com"
+    url: "https://www.vasttrafik.se/"
     interval: 1h
     conditions:
       - "[STATUS] == 200"
