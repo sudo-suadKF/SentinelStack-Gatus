@@ -31,15 +31,13 @@ endpoints:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: västtrafik-dns-query
-    url: "8.8.8.8" # Address of the DNS server to use
-    interval: 5m
-    dns:
-      query-name: "västtrafik.se"
-      query-type: "A"
+  - name: västtrafik-biljetter
+    group: core
+    url: "https://www.vasttrafik.se/biljetter/"
+    interval: 1h
     conditions:
-      - "[BODY] == pat(*.*.*.*)"  # Matches any IPv4 address
-      - "[DNS_RCODE] == NOERROR"
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"
 
   - name: västtrafik
     group: core
