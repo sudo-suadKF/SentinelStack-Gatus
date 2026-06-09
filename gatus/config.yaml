@@ -1,47 +1,39 @@
 endpoints:
-  - name: västtrafik-västlänken
+  - name: integro-consulting-contact
     group: core
-    url: "https://www.vasttrafik.se/info/vastlanken/"
+    url: "https://www.integroconsulting.se/contact/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: västtrafik-reseplanering
+  - name: integro-consulting-work
     group: core
-    url: "https://www.vasttrafik.se/reseplanering/"
+    url: "https://www.integroconsulting.se/work-at-integro-integro-consulting/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: västtrafik-nyheter
+  - name: integro-consulting-about-us
     group: core
-    url: "https://www.vasttrafik.se/om-vasttrafik/nyhetsarkiv/"
+    url: "https://www.integroconsulting.se/about-us-integro-consulting/#ws-block-about-with-features-k2sYA8BP"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: västtrafik-om-oss
+  - name: integro-consulting-expertise
     group: core
-    url: "https://www.vasttrafik.se/om-vasttrafik/vasttrafik-ab/"
-    interval: 5m
-    conditions:
-      - "[STATUS] == 200"
-      - "[RESPONSE_TIME] < 500"
-
-  - name: västtrafik-biljetter
-    group: core
-    url: "https://www.vasttrafik.se/biljetter/"
+    url: "https://www.integroconsulting.se/areas-of-expertise-integro-consulting-kopiera/"
     interval: 1h
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: västtrafik
+  - name: integro-consulting
     group: core
-    url: "https://www.vasttrafik.se/"
+    url: "https://www.integroconsulting.se/"
     interval: 1h
     conditions:
       - "[STATUS] == 200"
