@@ -1,39 +1,39 @@
 endpoints:
-  - name: integro-consulting-contact
-    group: core
-    url: "https://www.integroconsulting.se/contact/"
+  - name: 
+    group: capgemini-new
+    url: "https://www.capgemini.com/se-en/news/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: integro-consulting-work
+  - name: capgemini-industries
     group: core
-    url: "https://www.integroconsulting.se/work-at-integro-integro-consulting/"
+    url: "https://www.capgemini.com/se-en/industries/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: integro-consulting-about-us
+  - name: capgemini-insights
     group: core
-    url: "https://www.integroconsulting.se/about-us-integro-consulting/#ws-block-about-with-features-k2sYA8BP"
+    url: "https://www.capgemini.com/se-en/insights/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: integro-consulting-expertise
+  - name: capgemini-about-us
     group: core
-    url: "https://www.integroconsulting.se/areas-of-expertise-integro-consulting-kopiera/"
+    url: "https://www.capgemini.com/se-en/about-us/"
     interval: 1h
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: integro-consulting
+  - name: capgemini-main-page
     group: core
-    url: "https://www.integroconsulting.se/"
+    url: "https://www.capgemini.com/se-en/"
     interval: 1h
     conditions:
       - "[STATUS] == 200"
