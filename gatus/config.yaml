@@ -1,6 +1,6 @@
 endpoints:
-  - name: 
-    group: ecarx-software-services
+  - name: ecarx-software-services
+    group: core
     url: "https://www.ecarxgroup.com/software-services/"
     interval: 5m
     conditions:
