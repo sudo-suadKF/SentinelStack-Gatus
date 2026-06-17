@@ -1,39 +1,39 @@
 endpoints:
   - name: 
-    group: capgemini-new
-    url: "https://www.capgemini.com/se-en/news/"
+    group: ecarx-software-services
+    url: "https://www.ecarxgroup.com/software-services/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: capgemini-industries
+  - name: ecarx-news
     group: core
-    url: "https://www.capgemini.com/se-en/industries/"
+    url: "https://www.ecarxgroup.com/news/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: capgemini-insights
+  - name: ecarx-insights
     group: core
-    url: "https://www.capgemini.com/se-en/insights/"
+    url: "https://www.ecarxgroup.com/insights/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: capgemini-about-us
+  - name: ecarx-about-us
     group: core
-    url: "https://www.capgemini.com/se-en/about-us/"
+    url: "https://www.ecarxgroup.com/about-us/"
     interval: 1h
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: capgemini-main-page
+  - name: ecarx-main-page
     group: core
-    url: "https://www.capgemini.com/se-en/"
+    url: "https://www.ecarxgroup.com/"
     interval: 1h
     conditions:
       - "[STATUS] == 200"
