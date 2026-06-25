@@ -1,39 +1,39 @@
 endpoints:
-  - name: ecarx-software-services
+  - name: recorded-future-awards-recognition
     group: core
-    url: "https://www.ecarxgroup.com/software-services/"
+    url: "https://www.recordedfuture.com/awards-recognition"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: ecarx-news
+  - name: recorded-future-newsroom
     group: core
-    url: "https://www.ecarxgroup.com/news/"
+    url: "https://www.recordedfuture.com/newsroom"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: ecarx-insights
+  - name: recorded-future-platform
     group: core
-    url: "https://www.ecarxgroup.com/insights/"
+    url: "https://www.recordedfuture.com/platform"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: ecarx-about-us
+  - name: recorded-future-our-story
     group: core
-    url: "https://www.ecarxgroup.com/about-us/"
+    url: "https://www.recordedfuture.com/our-story"
     interval: 1h
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: ecarx-main-page
+  - name: recorded-future-main-page
     group: core
-    url: "https://www.ecarxgroup.com/"
+    url: "https://www.recordedfuture.com/"
     interval: 1h
     conditions:
       - "[STATUS] == 200"
