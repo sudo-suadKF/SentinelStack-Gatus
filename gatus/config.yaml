@@ -1,39 +1,39 @@
 endpoints:
-  - name: recorded-future-awards-recognition
+  - name: accenture-awards-recognition
     group: core
-    url: "https://www.recordedfuture.com/awards-recognition"
+    url: "https://www.accenture.com/se-en/about/awards-recognition"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: recorded-future-newsroom
+  - name: accenture-about
     group: core
-    url: "https://www.recordedfuture.com/newsroom"
+    url: "https://www.accenture.com/se-en/about/company-index"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: recorded-future-platform
+  - name: accenture-cloud-services
     group: core
-    url: "https://www.recordedfuture.com/platform"
+    url: "https://www.accenture.com/se-en/services/cloud"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: recorded-future-our-story
+  - name: accenture-insights
     group: core
-    url: "https://www.recordedfuture.com/our-story"
+    url: "https://www.accenture.com/se-en/insights"
     interval: 1h
     conditions:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 500"
 
-  - name: recorded-future-main-page
+  - name: accenture-main-page
     group: core
-    url: "https://www.recordedfuture.com/"
+    url: "https://www.accenture.com/se-en"
     interval: 1h
     conditions:
       - "[STATUS] == 200"
